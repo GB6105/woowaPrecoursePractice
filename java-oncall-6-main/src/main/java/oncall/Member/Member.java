@@ -43,30 +43,12 @@ public class Member {
             String[] inputWeekdayMembers = scanner.nextLine().split(",");
 
             // 1. 닉네임 5글자 이하
-            boolean isNicknameLong = false;
-            for(int i = 0; i < inputWeekdayMembers.length; i++) {
-                if(inputWeekdayMembers[i].length() > 5){
-                    isNicknameLong = true;
-                    break;
-                }
-            }
-            if(isNicknameLong){
+            if(checkNicknameLength(inputWeekdayMembers)){
                 System.out.println(Constant.INPUT_ERROR_MESSAGE);
                 continue;
             }
             // 2. 닉네임 중복 판단
-            Set<String> weekdaySet = new HashSet<>();
-            boolean isDuplicate = false;
-
-            for(int i = 0; i < inputWeekdayMembers.length; i++) {
-                String name = inputWeekdayMembers[i].trim();
-                if(!weekdaySet.add(name)){
-                    System.out.println(Constant.INPUT_ERROR_MESSAGE);
-                    isDuplicate = true;
-                }
-            }
-
-            if(isDuplicate){
+            if(checkDuplicateNickname(inputWeekdayMembers)){
                 System.out.println(Constant.INPUT_ERROR_MESSAGE);
                 continue;
             }
@@ -76,35 +58,20 @@ public class Member {
             String[] inputWeekendMembers = scanner.nextLine().split(",");
 
             // 1. 닉네임 5글자 이하
-            for(int i = 0; i < inputWeekendMembers.length; i++) {
-                if(inputWeekendMembers[i].length() > 5){
-                    isNicknameLong = true;
-                }
-            }
-            if(isNicknameLong){
+            if(checkNicknameLength(inputWeekendMembers)){
                 System.out.println(Constant.INPUT_ERROR_MESSAGE);
                 continue;
             }
 
             // 2. 닉네임 중복 판단
-            Set<String> weekendSet = new HashSet<>();
-
-            for(int i = 0; i < inputWeekendMembers.length; i++) {
-                String name = inputWeekendMembers[i].trim();
-                if(!weekendSet.add(name)){
-                    System.out.println(Constant.INPUT_ERROR_MESSAGE);
-                    isDuplicate = true;
-                }
-            }
-
-            if(isDuplicate){
+            if(checkDuplicateNickname(inputWeekendMembers)){
                 System.out.println(Constant.INPUT_ERROR_MESSAGE);
                 continue;
             }
             break;
         }
     }
-    public boolean checkNicknameLength(String[] nicknames){
+    public static boolean checkNicknameLength(String[] nicknames){
         boolean isOverFive = false;
         for(String nickname : nicknames) {
             if(nickname.length() > 5){
@@ -113,5 +80,20 @@ public class Member {
             }
         }
         return isOverFive;
+    }
+
+    public static boolean checkDuplicateNickname(String[] nicknames){
+        Set<String> weekdaySet = new HashSet<>();
+        boolean isDuplicate = false;
+
+        for (String nickname : nicknames) {
+            String name = nickname.trim();
+            if (!weekdaySet.add(name)) {
+                System.out.println(Constant.INPUT_ERROR_MESSAGE);
+                isDuplicate = true;
+                return isDuplicate;
+            }
+        }
+        return isDuplicate;
     }
 }
