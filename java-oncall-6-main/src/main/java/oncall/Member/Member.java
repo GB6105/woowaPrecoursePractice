@@ -1,6 +1,8 @@
 package oncall.Member;
 
 import oncall.Utils.Constant;
+
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
@@ -8,6 +10,10 @@ import java.util.Set;
 public class Member {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        int month = -1;
+        String day;
+        String[] weekdayMembers;
+        String[] weekendMembers;
         while(true) {
             System.out.print("비상 근무를 배정할 월과 시작 요일을 입력하세요> ");
             String[] inputMonthAndDay = scanner.nextLine().split(",");
@@ -16,7 +22,6 @@ public class Member {
                 System.out.println(Constant.INPUT_ERROR_MESSAGE);
                 continue;
             }
-            int month = 1;
             try{
                 month = Integer.parseInt(inputMonthAndDay[0]);
             }catch(NumberFormatException e){
@@ -28,50 +33,51 @@ public class Member {
                 continue;
             }
 
-            String day = inputMonthAndDay[1];
+            day = inputMonthAndDay[1].trim();
             if (!Constant.DAY_KOREAN_REGEX.matcher(day).matches()) { // 요일 범주 오류
                 System.out.println(Constant.INPUT_ERROR_MESSAGE);
                 continue;
             }
-
-            System.out.println("달 = " + month + ", 요일 = " + day); // 입출력 확인 디버깅 코드
             break;
         }
         while(true){
             //평일 근무자 순번 입력
             System.out.print(Constant.REQUIRE_WEEKDAY_LIST);
-            String[] inputWeekdayMembers = scanner.nextLine().split(",");
+            weekdayMembers = scanner.nextLine().split(",");
 
             // 1. 닉네임 5글자 이하
-            if(checkNicknameLength(inputWeekdayMembers)){
+            if(isNicknameToolong(weekdayMembers)){
                 System.out.println(Constant.INPUT_ERROR_MESSAGE);
                 continue;
             }
             // 2. 닉네임 중복 판단
-            if(checkDuplicateNickname(inputWeekdayMembers)){
+            if(hasDuplicateNickname(weekdayMembers)){
                 System.out.println(Constant.INPUT_ERROR_MESSAGE);
                 continue;
             }
 
             //휴일 근무자 순번 입력
             System.out.print(Constant.REQUIRE_WEEKEND_LIST);
-            String[] inputWeekendMembers = scanner.nextLine().split(",");
+            weekendMembers = scanner.nextLine().split(",");
 
             // 1. 닉네임 5글자 이하
-            if(checkNicknameLength(inputWeekendMembers)){
+            if(isNicknameToolong(weekendMembers)){
                 System.out.println(Constant.INPUT_ERROR_MESSAGE);
                 continue;
             }
 
             // 2. 닉네임 중복 판단
-            if(checkDuplicateNickname(inputWeekendMembers)){
+            if(hasDuplicateNickname(weekendMembers)){
                 System.out.println(Constant.INPUT_ERROR_MESSAGE);
                 continue;
             }
             break;
         }
+        System.out.println("달 " + month + "요일 " + day );
+        System.out.println(Arrays.toString(weekdayMembers));
+        System.out.println(Arrays.toString(weekendMembers));
     }
-    public static boolean checkNicknameLength(String[] nicknames){
+    public static boolean isNicknameToolong(String[] nicknames){
         boolean isOverFive = false;
         for(String nickname : nicknames) {
             if(nickname.length() > 5){
@@ -82,14 +88,13 @@ public class Member {
         return isOverFive;
     }
 
-    public static boolean checkDuplicateNickname(String[] nicknames){
+    public static boolean hasDuplicateNickname(String[] nicknames){
         Set<String> weekdaySet = new HashSet<>();
         boolean isDuplicate = false;
 
         for (String nickname : nicknames) {
             String name = nickname.trim();
             if (!weekdaySet.add(name)) {
-                System.out.println(Constant.INPUT_ERROR_MESSAGE);
                 isDuplicate = true;
                 return isDuplicate;
             }
