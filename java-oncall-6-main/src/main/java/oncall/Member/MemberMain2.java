@@ -43,6 +43,14 @@ public class MemberMain2 {
         System.out.println("달 " + member.month + "요일 " + member.day );
         System.out.println(Arrays.toString(member.weekdayMembers));
         System.out.println(Arrays.toString(member.weekendMembers));
+
+        // 날짜 라이브러리 계산해서 1일부터 입력받은 월의 마지막 날까지 정해주기
+        // 정해지면 시작 요일에 맞추어서 요일 배분하기
+        // 1일부터 순회하면서
+            // 평일이면 평일순서에 맞게 배정
+            // 주말이면 주말 순서에 맞게 배정
+            // 예외 발생하면 옮기기
+        // 만들어진 결과 출력하기
     }
 
 
