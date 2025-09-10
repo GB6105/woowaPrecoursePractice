@@ -2,7 +2,7 @@ package oncall.Utils.validation;
 
 public class NicknameLengthValidator implements Validator<String[]> {
     private final int max;
-
+    private boolean isOverFive = false;
     public NicknameLengthValidator(int max) {
         this.max = max;
     }
@@ -13,14 +13,15 @@ public class NicknameLengthValidator implements Validator<String[]> {
      * @return
      */
     @Override
-    public boolean validate(String[] strings) {
-        boolean isOverFive = false;
+    public void validate(String[] strings) {
         for(String nickname : strings) {
             if(nickname.length() > 5){
                 isOverFive = true;
-                return isOverFive;
             }
         }
+    }
+
+    public boolean isOverFive() {
         return isOverFive;
     }
 }

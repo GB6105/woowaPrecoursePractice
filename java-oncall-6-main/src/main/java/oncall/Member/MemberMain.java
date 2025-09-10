@@ -1,20 +1,19 @@
 package oncall.Member;
 
 import oncall.Utils.Constant;
+import oncall.Utils.validation.DuplicateValidator;
 import oncall.Utils.validation.NicknameLengthValidator;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Scanner;
-import java.util.Set;
 
 public class MemberMain {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Member member = new Member();
 
-
-
+        NicknameLengthValidator nicknameLengthValidator = new NicknameLengthValidator(5);
+        DuplicateValidator duplicateValidator = new DuplicateValidator();
         while (true) {
             System.out.print("비상 근무를 배정할 월과 시작 요일을 입력하세요> ");
             String[] inputMonthAndDay = scanner.nextLine().split(",");
@@ -45,14 +44,15 @@ public class MemberMain {
             //평일 근무자 순번 입력
             System.out.print(Constant.REQUIRE_WEEKDAY_LIST);
             member.weekdayMembers = scanner.nextLine().split(",");
-
+            nicknameLengthValidator.validate(member.weekdayMembers);
+            duplicateValidator.validate(member.weekdayMembers);
             // 1. 닉네임 5글자 이하
-            if(isNicknameToolong(member.weekdayMembers)){
+            if(nicknameLengthValidator.isOverFive()){
                 System.out.println(Constant.INPUT_ERROR_MESSAGE);
                 continue;
             }
             // 2. 닉네임 중복 판단
-            if(hasDuplicateNickname(member.weekdayMembers)){
+            if(duplicateValidator.isDuplicate()){
                 System.out.println(Constant.INPUT_ERROR_MESSAGE);
                 continue;
             }
@@ -60,15 +60,17 @@ public class MemberMain {
             //휴일 근무자 순번 입력
             System.out.print(Constant.REQUIRE_WEEKEND_LIST);
             member.weekendMembers = scanner.nextLine().split(",");
+            nicknameLengthValidator.validate(member.weekendMembers);
+            duplicateValidator.validate(member.weekendMembers);
 
             // 1. 닉네임 5글자 이하
-            if(isNicknameToolong(member.weekendMembers)){
+            if(nicknameLengthValidator.isOverFive()){
                 System.out.println(Constant.INPUT_ERROR_MESSAGE);
                 continue;
             }
 
             // 2. 닉네임 중복 판단
-            if(hasDuplicateNickname(member.weekendMembers)){
+            if(duplicateValidator.isDuplicate()){
                 System.out.println(Constant.INPUT_ERROR_MESSAGE);
                 continue;
             }
@@ -81,22 +83,6 @@ public class MemberMain {
 
 
 
-    /**
-     * 닉네임 중 중복 닉네임이 있는 지 체크하는 메서드
-     * @param nicknames
-     * @return
-     */
-    public static boolean hasDuplicateNickname(String[] nicknames){
-        Set<String> weekdaySet = new HashSet<>();
-        boolean isDuplicate = false;
 
-        for (String nickname : nicknames) {
-            String name = nickname.trim();
-            if (!weekdaySet.add(name)) {
-                isDuplicate = true;
-                return isDuplicate;
-            }
-        }
-        return isDuplicate;
-    }
+
 }
