@@ -1,6 +1,7 @@
 package oncall.Member;
 
 import oncall.Utils.Constant;
+import oncall.Utils.validation.NicknameLengthValidator;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -11,6 +12,8 @@ public class MemberMain {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Member member = new Member();
+
+
 
         while (true) {
             System.out.print("비상 근무를 배정할 월과 시작 요일을 입력하세요> ");
@@ -76,21 +79,7 @@ public class MemberMain {
         System.out.println(Arrays.toString(member.weekendMembers));
     }
 
-    /**
-     * 닉네임 길이가 5자가 넘는 요소가 있는 지 체크하는 메서드
-     * @param nicknames
-     * @return
-     */
-    public static boolean isNicknameToolong(String[] nicknames){
-        boolean isOverFive = false;
-        for(String nickname : nicknames) {
-            if(nickname.length() > 5){
-                isOverFive = true;
-                return isOverFive;
-            }
-        }
-        return isOverFive;
-    }
+
 
     /**
      * 닉네임 중 중복 닉네임이 있는 지 체크하는 메서드
