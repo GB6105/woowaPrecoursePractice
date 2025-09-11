@@ -1,17 +1,14 @@
 package oncall;
 
-import net.bytebuddy.description.type.TypeDescription;
+import oncall.Duty.DutyInfo;
 import oncall.Member.Member;
 import oncall.Utils.Constant;
+import oncall.Utils.Holidays;
 import oncall.Utils.Parser;
 import oncall.Utils.Validators;
 
-import java.security.KeyPair;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Application {
@@ -47,9 +44,9 @@ public class Application {
             }
             break;
         }
-        System.out.println("달 " + member.month + "요일 " + member.day );
-        System.out.println(Arrays.toString(member.weekdayMembers));
-        System.out.println(Arrays.toString(member.weekendMembers));
+//        System.out.println("달 " + member.month + "요일 " + member.day );
+//        System.out.println(Arrays.toString(member.weekdayMembers));
+//        System.out.println(Arrays.toString(member.weekendMembers));
 
         // 날짜 라이브러리 계산해서 1일부터 입력받은 월의 마지막 날까지 정해주기
         // 정해지면 시작 요일에 맞추어서 요일 배분하기
@@ -61,35 +58,38 @@ public class Application {
 
         // 입력받은 월의 마지막 날
         int lastDate = LocalDate.of(LocalDate.now().getYear(),member.month,1).with(TemporalAdjusters.lastDayOfMonth()).getDayOfMonth();
-        System.out.println(lastDate);
+//        System.out.println(lastDate);
 
         String startDay = member.day; // 시작 요일 정보
 
-        DutyInfo[] duties = new DutyInfo[lastDate];
+        DutyInfo[] duties = new DutyInfo[lastDate+1]; //31
+
         String[] days = {"월","화","수","목","금","토","일"};
         int startIndex = 0;
-        for(int i = 1 ; i <= lastDate+1 ; i++){
+        int weekdayIndex = 0;
+        int weekendIndex = 0;
+        for(int i = 1 ; i < lastDate+1 ; i++){
             String dayOfWeek = days[(startIndex + (i-1)) % 7];
-            duties[i] = new DutyInfo(dayOfWeek,null);
+            LocalDate date = LocalDate.of(LocalDate.now().getYear(),member.month,i);
+            if(dayOfWeek != "토" && dayOfWeek != "일" && !Holidays.isHoliday(date)){
+                duties[i] = new DutyInfo(dayOfWeek,member.weekdayMembers[weekdayIndex % member.weekdayMembers.length]);
+                weekdayIndex++;
+            }else if(dayOfWeek.equals("토")){
+                if(duties[i-1].getWorkerName().equals(member.weekendMembers[weekendIndex % member.weekendMembers.length])){
+
+                }
+            }
+            else{
+                duties[i] = new DutyInfo(dayOfWeek,member.weekendMembers[weekendIndex % member.weekendMembers.length]);
+                weekendIndex++;
+            }
+        }
+
+
+        for(int i = 1; i < lastDate+1 ; i++){
+            System.out.println(member.month + "월 "
+                    + i + "일 "
+                    + duties[i].getDayOfWeek()+" , "+ duties[i].getWorkerName());
         }
     }
-
-    class DutyInfo{
-        private String dayOfWeek;
-        private String workerName;
-
-        public DutyInfo(String dayOfWeek, String workerName){
-            this.dayOfWeek = dayOfWeek;
-            this.workerName = workerName;
-        }
-
-        public String getDayOfWeek() {
-            return dayOfWeek;
-        }
-
-        public String getWorkerName() {
-            return workerName;
-        }
-    }
-
 }
