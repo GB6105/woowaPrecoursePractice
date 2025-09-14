@@ -8,7 +8,7 @@ public class Parser {
             return false;
         }
         for(String str : strings){
-            if(!Constant.NICKNAME_REGEX.matcher(str).matches()){
+            if(!Regex.NICKNAME_REGEX.matcher(str).matches()){
                 return false;
             }
         }

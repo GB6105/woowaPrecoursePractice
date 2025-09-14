@@ -32,7 +32,7 @@ public class Validators {
         }
 
         member.day = strings[1].trim();
-        if (!Constant.DAY_KOREAN_REGEX.matcher(member.day).matches()) { // 요일 범주 오류
+        if (!Regex.DAY_KOREAN_REGEX.matcher(member.day).matches()) { // 요일 범주 오류
             return false;
         }
         return true;

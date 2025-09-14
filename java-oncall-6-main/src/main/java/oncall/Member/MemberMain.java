@@ -1,6 +1,7 @@
 package oncall.Member;
 
 import oncall.Utils.Constant;
+import oncall.Utils.Regex;
 import oncall.Utils.validation.DuplicateValidator;
 import oncall.Utils.validation.NicknameLengthValidator;
 
@@ -34,7 +35,7 @@ public class MemberMain {
             }
 
             member.day = inputMonthAndDay[1].trim();
-            if (!Constant.DAY_KOREAN_REGEX.matcher(member.day).matches()) { // 요일 범주 오류
+            if (!Regex.DAY_KOREAN_REGEX.matcher(member.day).matches()) { // 요일 범주 오류
                 System.out.println(Constant.INPUT_ERROR_MESSAGE);
                 continue;
             }
