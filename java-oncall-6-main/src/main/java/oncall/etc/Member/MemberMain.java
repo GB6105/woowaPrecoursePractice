@@ -1,9 +1,10 @@
-package oncall.Member;
+package oncall.etc.Member;
 
+import oncall.Member.Member;
 import oncall.Utils.Constant;
 import oncall.Utils.Regex;
-import oncall.Utils.validation.DuplicateValidator;
-import oncall.Utils.validation.NicknameLengthValidator;
+import oncall.etc.validation.DuplicateValidator;
+import oncall.etc.validation.NicknameLengthValidator;
 
 import java.util.Arrays;
 import java.util.Scanner;

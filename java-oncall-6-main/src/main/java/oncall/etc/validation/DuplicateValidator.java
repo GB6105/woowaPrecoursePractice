@@ -1,4 +1,4 @@
-package oncall.Utils.validation;
+package oncall.etc.validation;
 
 import java.util.HashSet;
 import java.util.Set;

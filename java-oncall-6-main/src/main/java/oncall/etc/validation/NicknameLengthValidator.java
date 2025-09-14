@@ -1,4 +1,4 @@
-package oncall.Utils.validation;
+package oncall.etc.validation;
 
 public class NicknameLengthValidator implements Validator<String[]> {
     private final int max;
