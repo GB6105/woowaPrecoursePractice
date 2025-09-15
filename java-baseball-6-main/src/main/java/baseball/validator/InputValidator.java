@@ -8,7 +8,7 @@ public class InputValidator {
   private InputValidator() {
   }
 
-  public boolean inputValidate(String input) {
+  public static boolean inputValidate(String input) {
     if (!Constants.INPUT_NUMBER.matcher(input).matches()) {
       return false;
     }
