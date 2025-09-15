@@ -142,3 +142,46 @@ while (computer.size() < 3) {
 - 미션은 [java-baseball-6](https://github.com/woowacourse-precourse/java-baseball-6) 저장소를 Fork & Clone해 시작한다.
 - **기능을 구현하기 전 `docs/README.md`에 구현할 기능 목록을 정리**해 추가한다.
 - 과제 진행 및 제출 방법은 [프리코스 과제 제출](https://github.com/woowacourse/woowacourse-docs/tree/master/precourse) 문서를 참고한다.
+
+## 기능 구현 체크 리스트
+
+### Console
+
+주 기능 : 갑의 입력을 받음
+
+주의 : console 라이브러리 사용
+
+- [ ]  세자리 수를 반복해서 입력 받음
+- [ ]  검증기를 통해서 값의 검증 (import)
+    - [ ]  값이 올바르지 않으면 프로그램 종료
+- [ ]  게임 종료 시 입력 받음
+    - [ ]  1 입력 받으면 게임 다시 시작
+    - [ ]  2 입력 받으면 프로그램 종료
+
+### Validator
+
+주 기능 : 입력 받은 값의 검증
+
+주의 : Regex 사용
+
+- [ ]  자릿 수 검증 ( 3자리)
+- [ ]  숫자 검증 ( 숫자만 입력 가능)
+
+### RandomNumberGenerator
+
+주 기능 : 정답으로 맞춰야 할 수를 생성
+
+주의 : Random 라이브러리 사용
+
+- [ ]  3자리 겹치지 않는 난수 생성
+
+### Judge
+
+주 기능 : 입력 받은 값과 정답의 비교
+
+- [ ]  값의 비교
+    - [ ]  수 찾기
+        - [ ]  위치 찾기
+        - [ ]  위치 맞으면 스트라이크
+        - [ ]  위치 안맞으면 볼
+    - [ ]  수 못 찾으면 낫싱
